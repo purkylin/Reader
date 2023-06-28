@@ -8,6 +8,8 @@
 import SwiftUI
 import SwiftData
 
+let globalContainer = try! ModelContainer(for: RssSource.self)
+
 @main
 struct ReaderApp: App {
 
@@ -15,6 +17,9 @@ struct ReaderApp: App {
         WindowGroup {
             ContentView()
         }
-        .modelContainer(for: Item.self)
+        .modelContainer(globalContainer)
     }
 }
+
+
+
