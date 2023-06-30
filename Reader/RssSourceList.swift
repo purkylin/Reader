@@ -12,11 +12,20 @@ import Kingfisher
 
 struct RssSourceList: View {
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.scenePhase) var scenePhase
+
     @Query private var items: [RssSource]
     @State private var showAddSource = false
     @State private var newUrl = ""
     @State private var errMsg: String?
     @State private var isLoading = false
+    
+    @State var lastUpdateTime: Date?
+    @State var showImport = false
+    
+    var sharedContent: Data {
+        items.map(\.url).map(\.absoluteString).joined(separator: "\n").data(using: .utf8)!
+    }
     
     var body: some View {
         List {
@@ -59,20 +68,58 @@ struct RssSourceList: View {
                     Image(systemName: "plus")
                 }
             }
+            ToolbarItem(placement: .status) {
+                HStack {
+                    if let date = lastUpdateTime {
+                        Text("Updated \(DateFormatterFactory.relativeString(date))").font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .backgroundStyle(.ultraThickMaterial)
+            }
+            
+            ToolbarItem(placement: .automatic) {
+                if items.isEmpty {
+                    ShareLink(item: sharedContent, preview: SharePreview("\(items.count) RSS items"))
+                }
+                Button("Import"){
+                    
+                }
+                .fileImporter(isPresented: $showImport, allowedContentTypes: [.text]) { result in
+                    switch result {
+                    case .success(let url):
+                        Task {
+                            await importAction(url)
+                        }
+                    case .failure(let error):
+                        print(error)
+                    }
+                }
+            }
         }
         .navigationDestination(for: RssSource.self) { source in
             RssSourceDetail(source: source)
         }
         .navigationTitle(Text("My RSS"))
+        .refreshable {
+            await refresh()
+        }
         .task {
             await refresh()
+        }
+        .onChange(of: scenePhase) { _, newValue in
+            if newValue == .active {
+                Task {
+                    await refresh()
+                }
+            }
         }
     }
     
     @ViewBuilder
     private func view(for item: RssSource) -> some View {
         HStack {
-            KFImage(item.logo)
+            KFImage(item.icon)
                 .placeholder({
                     Image(systemName: "photo.on.rectangle.angled").resizable().foregroundStyle(.secondary)
                 })
@@ -84,15 +131,27 @@ struct RssSourceList: View {
                 Text(item.title).bold()
                 if let date = item.lastUpdateTime() {
                     Group {
-                        Text("last udpate: ") +
-                        Text(date, style: .relative) +
-                        Text(" ago")
+                        Text("updated ") +
+                        Text(DateFormatterFactory.relativeString(date))
                     }
                     .font(.subheadline)
                 }
             }
             .badge(item.unreadCount())
             .badgeProminence(.increased)
+        }
+    }
+    
+    private func importAction(_ url: URL) async {
+        do {
+            let raw = try String(contentsOf: url)
+            
+            let urls = raw.components(separatedBy: .newlines).compactMap { URL(string: $0)}
+            for url in urls {
+                try await addSource(url: url)
+            }
+        } catch {
+            print(error.localizedDescription)
         }
     }
     
@@ -150,6 +209,7 @@ struct RssSourceList: View {
         for item in items {
             do {
                 try await updateSource(item)
+                self.lastUpdateTime = .now
             } catch {
                 print(error.localizedDescription)
             }

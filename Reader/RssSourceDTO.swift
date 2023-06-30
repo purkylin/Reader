@@ -82,11 +82,12 @@ private class RssFeedParser {
         
         guard let title = channel.title.text,
                 let link = channel.link.text,
-                let url = URL(string: link),
-                let desc = channel["description"].text else {
+                let url = URL(string: link)
+                 else {
             throw RssParseError.invalidFormat
         }
         
+        let desc = channel["description"].text ?? ""
         let logo = channel["image", "url"].url
         
         let feeds = try parseItems(at: channel)

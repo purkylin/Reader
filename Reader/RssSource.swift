@@ -29,6 +29,10 @@ class RssSource {
         self.logo = logo
         self.items = items
     }
+    
+    var icon: URL? {
+        return logo ?? link.appending(component: "favicon.ico")
+    }
 }
 
 @Model
