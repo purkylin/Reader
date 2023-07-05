@@ -9,34 +9,34 @@ import Foundation
 import SwiftData
 
 @Model
-class RssSource {
+class Feed {
     @Attribute(.unique)
     let title: String
     @Attribute(.unique)
-    let link: URL // site url
+    let homepage: URL // site url
     let desc: String
     let logo: URL?
     let url: URL // subscript url
         
     @Relationship(.cascade)
-    var items: [RssFeed]
+    var articles: [Article]
     
-    init(url: URL, title: String, link: URL, desc: String, logo: URL?, items: [RssFeed]) {
+    init(url: URL, title: String, homepage: URL, desc: String, logo: URL?, articles: [Article]) {
         self.url = url
         self.title = title
-        self.link = link
+        self.homepage = homepage
         self.desc = desc
         self.logo = logo
-        self.items = items
+        self.articles = articles
     }
     
     var icon: URL? {
-        return logo ?? link.appending(component: "favicon.ico")
+        return logo ?? homepage.appending(component: "favicon.ico")
     }
 }
 
 @Model
-class RssFeed {
+class Article {
     let title: String
     let link: URL
     let content: String?
@@ -45,8 +45,8 @@ class RssFeed {
     
     var viewed = false
     
-    @Relationship(inverse: \RssSource.items)
-    var source: RssSource?
+    @Relationship(inverse: \Feed.articles)
+    var feed: Feed?
     
     init(title: String, link: URL, content: String?, pubDate: Date, author: String?) {
         self.title = title
@@ -57,6 +57,6 @@ class RssFeed {
     }
 }
 
-extension RssSource: Identifiable {
+extension Feed: Identifiable {
     var id: String { title }
 }

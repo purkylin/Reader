@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-let globalContainer = try! ModelContainer(for: RssSource.self)
+let globalContainer = try! ModelContainer(for: Feed.self)
 
 @main
 struct ReaderApp: App {

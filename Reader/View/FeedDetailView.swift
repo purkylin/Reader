@@ -10,26 +10,26 @@ import SwiftUI
 import SwiftData
 import Kingfisher
 
-struct RssSourceDetail: View {
-    let source: RssSource
+struct FeedDetailView: View {
+    let feed: Feed
     
     @Environment(\.modelContext) private var modelContext
-    @Query private var items: [RssFeed]
+    @Query private var items: [Article]
     
-    @State private var selectedFeed: RssFeed?
+    @State private var selectedArticle: Article?
     @State private var enableFilter = false
     
     @State private var showEditPage = false
     
-    init(source: RssSource) {
-        self.source = source
+    init(feed: Feed) {
+        self.feed = feed
         
-        let name = source.title
-        let filter = #Predicate<RssFeed> { $0.source?.title == name }
+        let name = feed.title
+        let filter = #Predicate<Article> { $0.feed?.title == name }
         _items = Query(filter: filter, sort: \.pubDate, order: .reverse)
     }
     
-    private var feeds: [RssFeed] {
+    private var articles: [Article] {
         if enableFilter {
             return items.filter { !$0.viewed }
         } else {
@@ -39,24 +39,24 @@ struct RssSourceDetail: View {
     
     var body: some View {
         List {
-            ForEach(feeds, id: \.title) { feed in
+            ForEach(articles, id: \.title) { article in
                 VStack(alignment: .leading) {
-                    Text(feed.title).lineLimit(3)
+                    Text(article.title).lineLimit(3)
                     HStack {
                         Spacer()
-                        Text(DateFormatterFactory.dateString(feed.pubDate)).font(.subheadline)
+                        Text(DateFormatterFactory.dateString(article.pubDate)).font(.subheadline)
                     }
                 }
                 .onTapGesture {
-                    selectedFeed = feed
-                    markRead(for: feed)
+                    selectedArticle = article
+                    // markRead(for: feed)
                 }
-                .foregroundColor(feed.viewed ? .secondary : .primary)
+                .foregroundColor(article.viewed ? .secondary : .primary)
             }
         }
-        .navigationTitle(Text(source.title))
-        .fullScreenCover(item: $selectedFeed) { feed in
-            WebView(url: feed.link).ignoresSafeArea()
+        .navigationTitle(Text(feed.title))
+        .fullScreenCover(item: $selectedArticle) { article in
+            WebView(url: article.link).ignoresSafeArea()
         }
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -68,30 +68,55 @@ struct RssSourceDetail: View {
                 .foregroundStyle(Color.accentColor)
                 .buttonStyle(.plain)
             }
-            
-            // ToolbarItem(placement: .principal) {
-            //     Button("aa") {
-            //         showEditPage = true
-            //     }
-            // }
-            
-            // ToolbarTitleMenu {
-            //     Button("", action: <#T##() -> Void#>)
-            //     SourceEditView(source: source)
-            // }
+            ToolbarTitleMenu {
+                FeedInfoView(feed: feed)
+            }
         }
         .sheet(isPresented: $showEditPage, content: {
-            SourceEditView(source: source)
+            // SourceEditView(source: source)
         })
     }
     
-    private func markRead(for feed: RssFeed) {
-        feed.viewed = true
+    private func markRead(for article: Article) {
+        article.viewed = true
+    }
+}
+
+struct FeedInfoView: View {
+    let feed: Feed
+    
+    @Environment(\.modelContext) private var modelContext
+    
+    var body: some View {
+        VStack {
+            Text(feed.title) + Text(": \(feed.articles.count)")
+            Link(destination: feed.homepage) {
+                HStack {
+                    Text("Homepage")
+                    Spacer()
+                    Image(systemName: "safari")
+                }
+            }
+            Button {
+                UIPasteboard.general.url = feed.url
+            } label: {
+                Label("Copy", systemImage: "doc.on.doc")
+            }
+            
+            Button {
+                for article in feed.articles {
+                    article.viewed = true
+                }
+            } label: {
+                Label("Mark all read", systemImage: "app.badge.checkmark")
+            }
+
+        }
     }
 }
 
 struct SourceEditView: View {
-    let source: RssSource
+    let source: Feed
     
     @Environment(\.dismiss) private var dismiss
     
