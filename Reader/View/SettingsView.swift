@@ -19,14 +19,6 @@ struct SettingsView: View, Logging {
         NavigationStack {
             Form {
                 Section {
-                    Button("Mark all Read") {
-                        
-                    }
-                    
-                    Button("Clean up old articles") {
-                        
-                    }
-                    
                     Button(action: exportAction) {
                         Label("Export", systemImage: "square.and.arrow.up")
                     }
@@ -34,11 +26,12 @@ struct SettingsView: View, Logging {
                         Label("Import", systemImage: "square.and.arrow.down")
                     }
                 }
+                .buttonStyle(.plain)
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             
-            .fileExporter(isPresented: $showExport, document: document, contentType: OpmlDocument.pubType, defaultFilename: "My-Sub", onCompletion: { result in
+            .fileExporter(isPresented: $showExport, document: document, contentType: OpmlDocument.pubType, defaultFilename: "my-rss", onCompletion: { result in
                 //
             })
             .fileImporter(isPresented: $showImport, allowedContentTypes: [OpmlDocument.pubType]) { result in
@@ -55,7 +48,13 @@ struct SettingsView: View, Logging {
     }
     
     private func exportAction() {
-
+        showExport = true
+        do {
+            let feeds = try Feed.getAll(in: modelContext)
+            document = OpmlDocument(feeds: feeds)
+        } catch {
+            logger.error("export failed: \(error.localizedDescription)")
+        }
     }
     
     private func importAction() {
@@ -75,5 +74,13 @@ struct SettingsView: View, Logging {
         } catch {
             logger.error("\(error.localizedDescription)")
         }
+    }
+}
+
+import SwiftData
+
+extension Feed {
+    static func getAll(in context: ModelContext) throws -> [Feed] {
+        return try context.fetch(FetchDescriptor<Feed>())
     }
 }
