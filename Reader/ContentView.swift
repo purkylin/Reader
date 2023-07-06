@@ -10,9 +10,16 @@ import SwiftData
 import UIKit
 
 struct ContentView: View {
+    @State var selection: Feed?
     var body: some View {
-        NavigationStack {
-            FeedListView()
+        NavigationSplitView {
+            FeedListView(selection: $selection)
+        } detail: {
+            if let feed = selection {
+                FeedDetailView(feed: feed)
+            } else {
+                EmptyView()
+            }
         }
     }
 }

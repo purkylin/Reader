@@ -11,7 +11,9 @@ import SwiftData
 import Kingfisher
 
 struct FeedListView: View, Logging {
-    private let store = RSSStore()
+    @Binding var selection: Feed?
+    
+    @State private var store = Store()
     
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) var scenePhase
@@ -25,7 +27,7 @@ struct FeedListView: View, Logging {
     @State var showSettings = false
     
     var body: some View {
-        List {
+        List(selection: $selection) {
             ForEach(items, id: \.title) { item in
                 NavigationLink(value: item) {
                     view(for: item)
@@ -62,9 +64,6 @@ struct FeedListView: View, Logging {
         .error(text: $errMsg)
         .toolbar {
             toolbar
-        }
-        .navigationDestination(for: Feed.self) { feed in
-            FeedDetailView(feed: feed)
         }
         .navigationTitle(Text("My RSS"))
         .refreshable {

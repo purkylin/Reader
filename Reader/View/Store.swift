@@ -1,5 +1,5 @@
 //
-//  RSSStore.swift
+//  Store.swift
 //  Reader
 //
 //  Created by Purkylin King on 2023/7/4.
@@ -10,11 +10,11 @@ import SwiftData
 import Observation
 
 @Observable
-class RSSStore: Logging {
+class Store: Logging {
     private let mininalRefeshInterval: TimeInterval = 15 * 60
 
     var lastUpdateTime: Date? = nil
-
+    
     @MainActor
     func addFeed(url: URL, in context: ModelContext) async throws {
         let dto = try await fetchWebFeed(url: url)

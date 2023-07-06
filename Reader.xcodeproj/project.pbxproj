@@ -22,7 +22,7 @@
 		3164B9C62A52C68800514032 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3164B9C52A52C68800514032 /* Logging.swift */; };
 		3164B9C82A53F2A200514032 /* OPMLDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3164B9C72A53F2A200514032 /* OPMLDocument.swift */; };
 		3164B9CA2A53F2F600514032 /* OPMLExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3164B9C92A53F2F600514032 /* OPMLExporter.swift */; };
-		3164B9CD2A54012C00514032 /* RSSStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3164B9CC2A54012C00514032 /* RSSStore.swift */; };
+		3164B9CD2A54012C00514032 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3164B9CC2A54012C00514032 /* Store.swift */; };
 		3164B9CF2A540A7F00514032 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3164B9CE2A540A7F00514032 /* SettingsView.swift */; };
 		3164B9D12A540E6800514032 /* OPMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3164B9D02A540E6800514032 /* OPMLParser.swift */; };
 		31E32BD02A4A935C00836F38 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E32BCF2A4A935C00836F38 /* WebView.swift */; };
@@ -45,7 +45,7 @@
 		3164B9C52A52C68800514032 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		3164B9C72A53F2A200514032 /* OPMLDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OPMLDocument.swift; sourceTree = "<group>"; };
 		3164B9C92A53F2F600514032 /* OPMLExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OPMLExporter.swift; sourceTree = "<group>"; };
-		3164B9CC2A54012C00514032 /* RSSStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSSStore.swift; sourceTree = "<group>"; };
+		3164B9CC2A54012C00514032 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		3164B9CE2A540A7F00514032 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3164B9D02A540E6800514032 /* OPMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OPMLParser.swift; sourceTree = "<group>"; };
 		31E32BCF2A4A935C00836F38 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
@@ -119,7 +119,7 @@
 				3130ADEA2A48424300B438F9 /* FeedListView.swift */,
 				3130ADEC2A48426E00B438F9 /* FeedDetailView.swift */,
 				3164B9CE2A540A7F00514032 /* SettingsView.swift */,
-				3164B9CC2A54012C00514032 /* RSSStore.swift */,
+				3164B9CC2A54012C00514032 /* Store.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -225,7 +225,7 @@
 				3130ADDD2A482A0D00B438F9 /* Item.swift in Sources */,
 				3164B9C42A52795500514032 /* DateFormatterFactory.swift in Sources */,
 				3130ADD42A482A0C00B438F9 /* ReaderApp.swift in Sources */,
-				3164B9CD2A54012C00514032 /* RSSStore.swift in Sources */,
+				3164B9CD2A54012C00514032 /* Store.swift in Sources */,
 				3164B9CA2A53F2F600514032 /* OPMLExporter.swift in Sources */,
 				3164B9C82A53F2A200514032 /* OPMLDocument.swift in Sources */,
 				3164B9C22A52776000514032 /* ViewDidLoadModifier.swift in Sources */,

@@ -12,7 +12,7 @@ struct SettingsView: View, Logging {
     @State private var showExport = false
     @State private var document: OpmlDocument?
     
-    @Environment(RSSStore.self) private var store
+    @Environment(Store.self) private var store
     @Environment(\.modelContext) private var modelContext
     
     var body: some View {
