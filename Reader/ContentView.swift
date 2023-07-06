@@ -10,7 +10,9 @@ import SwiftData
 import UIKit
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var modelContext
     @State var selection: Feed?
+    
     var body: some View {
         NavigationSplitView {
             FeedListView(selection: $selection)
@@ -19,6 +21,12 @@ struct ContentView: View {
                 FeedDetailView(feed: feed)
             } else {
                 EmptyView()
+            }
+        }
+        .task {
+            if selection == nil {
+                let obj = try? modelContext.fetch(Feed.all).first
+                selection = obj
             }
         }
     }

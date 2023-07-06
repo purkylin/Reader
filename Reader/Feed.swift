@@ -60,3 +60,9 @@ class Article {
 extension Feed: Identifiable {
     var id: String { title }
 }
+
+extension Feed {
+    static var all: FetchDescriptor<Feed>{
+        FetchDescriptor()
+    }
+}
