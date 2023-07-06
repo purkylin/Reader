@@ -12,7 +12,7 @@ let globalContainer = try! ModelContainer(for: Feed.self)
 
 @main
 struct ReaderApp: App {
-
+    // TODO: Background task
     var body: some Scene {
         WindowGroup {
             ContentView()

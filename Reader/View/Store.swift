@@ -11,6 +11,7 @@ import Observation
 
 @Observable
 class Store: Logging {
+    // 15 mins
     private let mininalRefeshInterval: TimeInterval = 15 * 60
 
     var lastUpdateTime: Date? = nil

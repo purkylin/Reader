@@ -10,13 +10,14 @@ import SwiftData
 
 @Model
 class Feed {
-    @Attribute(.unique)
-    let title: String
-    @Attribute(.unique)
+    var title: String
     let homepage: URL // site url
     let desc: String
     let logo: URL?
+    @Attribute(.unique)
     let url: URL // subscript url
+    
+    // TODO: type: rss/atom
         
     @Relationship(.cascade)
     var articles: [Article]
@@ -35,28 +36,6 @@ class Feed {
     }
 }
 
-@Model
-class Article {
-    let title: String
-    let link: URL
-    let content: String?
-    let pubDate: Date
-    let author: String?
-    
-    var viewed = false
-    
-    @Relationship(inverse: \Feed.articles)
-    var feed: Feed?
-    
-    init(title: String, link: URL, content: String?, pubDate: Date, author: String?) {
-        self.title = title
-        self.link = link
-        self.content = content
-        self.pubDate = pubDate
-        self.author = author
-    }
-}
-
 extension Feed: Identifiable {
     var id: String { title }
 }
@@ -65,4 +44,10 @@ extension Feed {
     static var all: FetchDescriptor<Feed>{
         FetchDescriptor()
     }
+}
+
+enum FeedType: String, Codable {
+    case rss
+    case atom
+    case unknown
 }

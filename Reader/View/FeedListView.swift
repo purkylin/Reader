@@ -21,10 +21,10 @@ struct FeedListView: View, Logging {
     @Query private var items: [Feed]
     
     @State private var newUrl = ""
-    @State private var errMsg: String?
     @State private var isLoading = false
     @State private var showAdd = false
-    @State var showSettings = false
+    @State private var showSettings = false
+    @State private var currentError: AlertError?
     
     var body: some View {
         List(selection: $selection) {
@@ -34,6 +34,9 @@ struct FeedListView: View, Logging {
                 }
             }
             .onDelete(perform: deleteItems)
+        }
+        .refreshable {
+            await refresh(force: true)
         }
         .overlay {
             if items.isEmpty {
@@ -61,35 +64,29 @@ struct FeedListView: View, Logging {
                 Text("OK")
             }
         })
-        .error(text: $errMsg)
+        .alert(error: $currentError)
         .toolbar {
             toolbar
         }
-        .navigationTitle(Text("My RSS"))
-        .refreshable {
-            await refresh(force: true)
-        }
-        .task {
-            await refresh()
-        }
+        .navigationTitle(Text("Reader"))
         .onChange(of: scenePhase) { _, newValue in
             logger.trace("phase is active: \(newValue == .active)")
             Task {
                 await refresh()
             }
         }
+        .task {
+            await refresh()
+        }
     }
     
     @ToolbarContentBuilder
     private var toolbar: some ToolbarContent {
         ToolbarItem(placement: .status) {
-            if let date = store.lastUpdateTime {
-                Text("Updated \(DateFormatterFactory.relativeString(date))").font(.footnote)
+            let text = store.lastUpdateTime
+                .map { "Updated \(DateFormatterFactory.relativeString($0) )"}
+            Text(text ?? "").font(.footnote)
                     .foregroundStyle(.secondary)
-                
-            } else {
-                Text("")
-            }
         }
         ToolbarItem(placement: .bottomBar) {
             Button {
@@ -108,6 +105,7 @@ struct FeedListView: View, Logging {
     }
     
     private func refresh(force: Bool = false) async {
+        // TODO: the state is not active when pull refresh
         guard scenePhase == .active else { return }
         await store.refresh(feeds: items, force: force)
     }
@@ -148,7 +146,7 @@ struct FeedListView: View, Logging {
     
     private func saveAction() {
         guard let url = URL(string: newUrl) else {
-            errMsg = "Invalid url"
+            currentError = "Invalid url"
             return
         }
         
@@ -162,35 +160,8 @@ struct FeedListView: View, Logging {
                 try await store.addFeed(url: url, in: modelContext)
             } catch {
                 logger.error("save faield for url: \(url), \(error)")
-                self.errMsg = error.localizedDescription
+                self.currentError = AlertError(error)
             }
-        }
-    }
-}
-
-extension View {
-    func error(text: Binding<String?>) -> some View {
-        self.modifier(CustomErrorAlert(text: text))
-    }
-}
-
-struct CustomErrorAlert: ViewModifier {
-    @Binding var text: String?
-    
-    func body(content: Content) -> some View {
-        let hasError = Binding<Bool>(
-            get: {
-                return self.text != nil
-            },
-            set: { _ in
-                self.text = nil
-            }
-        )
-        
-        return content.alert("Error", isPresented: hasError) {
-            EmptyView()
-        } message: {
-            Text(text ?? "")
         }
     }
 }

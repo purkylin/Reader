@@ -8,6 +8,7 @@
 import Foundation
 import SwiftyXMLParser
 
+// TODO: Refactor
 struct RssSourceDTO {
     let title: String
     let link: URL
@@ -185,8 +186,6 @@ private class AtomFeedParser {
         return result
     }
 }
-
-
 
 extension XML.Accessor {
     func getText() -> String? {

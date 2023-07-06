@@ -50,7 +50,7 @@ struct OPMLParser {
         
         let type = node.attributes["type"] ?? "rss"
         
-        guard type == "rss" else { return nil }
+        guard type == "rss" || type == "atom" else { return nil }
         guard let hUrl = URL(string: htmlUrl),
                 let xUrl = URL(string: xmlUrl) else {
             return nil

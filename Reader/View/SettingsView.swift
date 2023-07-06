@@ -14,6 +14,7 @@ struct SettingsView: View, Logging {
     
     @Environment(Store.self) private var store
     @Environment(\.modelContext) private var modelContext
+    @Environment(\.dismiss) private var dismiss
     
     var body: some View {
         NavigationStack {
@@ -30,7 +31,13 @@ struct SettingsView: View, Logging {
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
-            
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
             .fileExporter(isPresented: $showExport, document: document, contentType: OpmlDocument.pubType, defaultFilename: "my-rss", onCompletion: { result in
                 //
             })
