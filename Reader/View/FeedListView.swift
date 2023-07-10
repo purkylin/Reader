@@ -13,7 +13,7 @@ import Kingfisher
 struct FeedListView: View, Logging {
     @Binding var selection: Feed?
     
-    @State private var store = Store()
+    @Environment(Store.self) var store
     
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) var scenePhase
@@ -49,7 +49,7 @@ struct FeedListView: View, Logging {
             }
         }
         .sheet(isPresented: $showSettings) {
-            SettingsView().environment(store)
+            SettingsView()
         }
         .alert("Add Feed", isPresented: $showAdd, actions: {
             TextField("RSS feed url", text: $newUrl)

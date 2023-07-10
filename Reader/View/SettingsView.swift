@@ -12,6 +12,8 @@ struct SettingsView: View, Logging {
     @State private var showExport = false
     @State private var document: OpmlDocument?
     
+    @AppStorage("EnabledAutoClean") var enabledAutoClean = false
+    
     @Environment(Store.self) private var store
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -19,6 +21,12 @@ struct SettingsView: View, Logging {
     var body: some View {
         NavigationStack {
             Form {
+                Section {
+                    Toggle(isOn: $enabledAutoClean) {
+                        Text("Auto clearn old articles")
+                    }
+                }
+                
                 Section {
                     Button(action: exportAction) {
                         Label("Export", systemImage: "square.and.arrow.up")
