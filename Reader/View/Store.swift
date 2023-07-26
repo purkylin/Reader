@@ -87,7 +87,7 @@ extension Feed {
         return try context.fetch(FetchDescriptor(predicate: predicate)).first
     }
     
-    @MainActor
+    // @MainActor
     func lastUpdateTime() -> Date? {
         guard let context = self.context else { fatalError("Can't get context") }
         let name = self.title
