@@ -23,12 +23,6 @@ struct ContentView: View {
                 EmptyView()
             }
         }
-        .task {
-            if selection == nil {
-                let obj = try? modelContext.fetch(Feed.all).first
-                selection = obj
-            }
-        }
     }
 }
 
