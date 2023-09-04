@@ -19,7 +19,7 @@ class Feed {
     
     // TODO: type: rss/atom
         
-    @Relationship(.cascade)
+    @Relationship(deleteRule: .cascade)
     var articles: [Article]
     
     init(url: URL, title: String, homepage: URL, desc: String, logo: URL?, articles: [Article]) {

@@ -12,7 +12,7 @@ import UIKit
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @State var selection: Feed?
-    
+        
     var body: some View {
         NavigationSplitView {
             FeedListView(selection: $selection)
@@ -30,3 +30,5 @@ struct ContentView: View {
     ContentView()
         .modelContainer(for: Feed.self, inMemory: true)
 }
+
+

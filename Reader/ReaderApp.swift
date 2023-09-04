@@ -7,9 +7,10 @@
 
 import SwiftUI
 import SwiftData
+import TipKit
 
 let globalContainer = try! ModelContainer(for: Feed.self)
-let databaseActor = BackgroundActor(container: globalContainer)
+let databaseActor = BackgroundActor(modelContainer: globalContainer)
 
 @main
 struct ReaderApp: App {
@@ -24,14 +25,10 @@ struct ReaderApp: App {
                 .environment(store)
                 .task {
                     if enabledAutoClean {
-                        await store.clean()
+                        await databaseActor.clean()
                     }
                 }
-            
         }
         .modelContainer(globalContainer)
     }
 }
-
-
-

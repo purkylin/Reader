@@ -9,9 +9,12 @@ import Foundation
 import SwiftUI
 import SwiftData
 import Kingfisher
+import TipKit
 
 struct FeedListView: View, Logging {
     @Binding var selection: Feed?
+    
+    private let addTip = MyTip()
     
     @Environment(Store.self) var store
     
@@ -28,6 +31,7 @@ struct FeedListView: View, Logging {
     
     var body: some View {
         List(selection: $selection) {
+            // TipView(MyTip(), arrowEdge: .bottom)
             ForEach(items, id: \.title) { item in
                 NavigationLink(value: item) {
                     view(for: item)
@@ -40,7 +44,7 @@ struct FeedListView: View, Logging {
         }
         .overlay {
             if items.isEmpty {
-                ContentUnavailableView("No Data", systemImage: "quare.on.square")
+                ContentUnavailableView("No Data", systemImage: "square.on.square")
             }
         }
         .overlay {
@@ -78,6 +82,13 @@ struct FeedListView: View, Logging {
         .task {
             await refresh()
         }
+        .task {
+            // TODO: tutorial
+            // try? await Tips.configure {
+            //     DisplayFrequency(.immediate)
+            //     DatastoreLocation(.applicationDefault, shouldReset: false)
+            // }
+        }
     }
     
     @ToolbarContentBuilder
@@ -101,6 +112,7 @@ struct FeedListView: View, Logging {
             } label: {
                 Image(systemName: "plus")
             }
+            .popoverTip(MyTip(), arrowEdge: .bottom)
         }
     }
     
@@ -123,7 +135,7 @@ struct FeedListView: View, Logging {
             
             VStack(alignment: .leading) {
                 Text(item.title).bold()
-                if let date = item.lastUpdateTime() {
+                if let date = item.lastUpdateTime(in: modelContext) {
                     Group {
                         Text("updated ") +
                         Text(DateFormatterFactory.relativeString(date))
@@ -131,7 +143,7 @@ struct FeedListView: View, Logging {
                     .font(.subheadline)
                 }
             }
-            .badge(item.unreadCount())
+            .badge(item.unreadCount(in: modelContext))
             .badgeProminence(.increased)
         }
     }
@@ -163,5 +175,44 @@ struct FeedListView: View, Logging {
                 self.currentError = AlertError(error)
             }
         }
+    }
+}
+
+struct MyTip: Tip {
+    @Parameter
+    static var isLoggedIn: Bool = false
+    
+    static let enterDetailEvent: Event = Event<DetailDonation>(id: "enter_detail")
+    
+    var title: Text {
+        Text("Add new feed")
+    }
+    
+    var message: Text? {
+        Text("More articles in your feed")
+    }
+    
+    var asset: Image? {
+        Image(systemName: "star")
+    }
+    
+    var actions: [Action] {
+        [
+            Tips.Action(title: "Perform") {
+                print("oh my god")
+            }
+        ]
+    }
+    
+    // var rules: [Rule] {
+    //     [
+    //         #Rule(Self.enterDetailEvent) { $0.count >= 3 }
+    //     ]
+    // }
+}
+
+extension MyTip {
+    struct DetailDonation: Codable, Sendable {
+        let id: String
     }
 }

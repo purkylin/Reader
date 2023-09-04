@@ -10,6 +10,8 @@ import SwiftData
 
 @Model
 class Article {
+    @Attribute(.unique)
+    let id = UUID()
     let title: String
     let link: URL
     let content: String?

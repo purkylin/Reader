@@ -37,7 +37,7 @@ struct FeedDetailView: View {
     
     var body: some View {
         List {
-            ForEach(articles, id: \.title) { article in
+            ForEach(articles, id: \.id) { article in
                 VStack(alignment: .leading) {
                     Text(article.title).lineLimit(3)
                     HStack {
