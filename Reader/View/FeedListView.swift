@@ -83,11 +83,10 @@ struct FeedListView: View, Logging {
             await refresh()
         }
         .task {
-            // TODO: tutorial
-            // try? await Tips.configure {
-            //     DisplayFrequency(.immediate)
-            //     DatastoreLocation(.applicationDefault, shouldReset: false)
-            // }
+            try? Tips.configure([
+                .datastoreLocation(.applicationDefault),
+                .displayFrequency(.immediate)
+            ])
         }
     }
     
@@ -196,13 +195,13 @@ struct MyTip: Tip {
         Image(systemName: "star")
     }
     
-    var actions: [Action] {
-        [
-            Tips.Action(title: "Perform") {
-                print("oh my god")
-            }
-        ]
-    }
+    // var actions: [Action] {
+    //     [
+    //         Tips.Action(title: "Perform") {
+    //             print("oh my god")
+    //         }
+    //     ]
+    // }
     
     // var rules: [Rule] {
     //     [

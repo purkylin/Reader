@@ -25,9 +25,9 @@
 		3164B9CF2A540A7F00514032 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3164B9CE2A540A7F00514032 /* SettingsView.swift */; };
 		3164B9D12A540E6800514032 /* OPMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3164B9D02A540E6800514032 /* OPMLParser.swift */; };
 		3185CB0D2A5697400059C617 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3185CB0C2A5697400059C617 /* Article.swift */; };
+		318EDFA12AA5AB1D000B34FD /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318EDFA02AA5AB1D000B34FD /* AboutView.swift */; };
 		31AAFB2D2A56B26500D23ADF /* ToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AAFB2C2A56B26500D23ADF /* ToastModifier.swift */; };
 		31AAFB312A56D16C00D23ADF /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AAFB302A56D16C00D23ADF /* AlertModifier.swift */; };
-		31C91A8D2A8DC18100C65AE2 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 31C91A8C2A8DC18100C65AE2 /* Localizable.xcstrings */; };
 		31E32BD02A4A935C00836F38 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E32BCF2A4A935C00836F38 /* WebView.swift */; };
 		31E32BD52A4AE98400836F38 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 31E32BD42A4AE98400836F38 /* Kingfisher */; };
 		31EAE0332A5BE6C500659180 /* BackgroundActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31EAE0322A5BE6C500659180 /* BackgroundActor.swift */; };
@@ -52,9 +52,9 @@
 		3164B9CE2A540A7F00514032 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		3164B9D02A540E6800514032 /* OPMLParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OPMLParser.swift; sourceTree = "<group>"; };
 		3185CB0C2A5697400059C617 /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
+		318EDFA02AA5AB1D000B34FD /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		31AAFB2C2A56B26500D23ADF /* ToastModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastModifier.swift; sourceTree = "<group>"; };
 		31AAFB302A56D16C00D23ADF /* AlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModifier.swift; sourceTree = "<group>"; };
-		31C91A8C2A8DC18100C65AE2 /* Localizable.xcstrings */ = {isa = PBXFileReference; lastKnownFileType = text.json.xcstrings; path = Localizable.xcstrings; sourceTree = "<group>"; };
 		31E32BCF2A4A935C00836F38 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		31EAE0322A5BE6C500659180 /* BackgroundActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundActor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -75,7 +75,6 @@
 		3130ADC72A482A0B00B438F9 = {
 			isa = PBXGroup;
 			children = (
-				31C91A8C2A8DC18100C65AE2 /* Localizable.xcstrings */,
 				3130ADD22A482A0C00B438F9 /* Reader */,
 				3130ADD12A482A0C00B438F9 /* Products */,
 			);
@@ -128,6 +127,7 @@
 				3130ADEA2A48424300B438F9 /* FeedListView.swift */,
 				3130ADEC2A48426E00B438F9 /* FeedDetailView.swift */,
 				3164B9CE2A540A7F00514032 /* SettingsView.swift */,
+				318EDFA02AA5AB1D000B34FD /* AboutView.swift */,
 				3164B9CC2A54012C00514032 /* Store.swift */,
 			);
 			path = View;
@@ -224,7 +224,6 @@
 			files = (
 				3130ADDB2A482A0D00B438F9 /* Preview Assets.xcassets in Resources */,
 				3130ADD82A482A0D00B438F9 /* Assets.xcassets in Resources */,
-				31C91A8D2A8DC18100C65AE2 /* Localizable.xcstrings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -239,6 +238,7 @@
 				3164B9CF2A540A7F00514032 /* SettingsView.swift in Sources */,
 				31EAE0332A5BE6C500659180 /* BackgroundActor.swift in Sources */,
 				31AAFB312A56D16C00D23ADF /* AlertModifier.swift in Sources */,
+				318EDFA12AA5AB1D000B34FD /* AboutView.swift in Sources */,
 				3130ADD62A482A0C00B438F9 /* ContentView.swift in Sources */,
 				31E32BD02A4A935C00836F38 /* WebView.swift in Sources */,
 				3130ADEB2A48424300B438F9 /* FeedListView.swift in Sources */,
@@ -390,6 +390,7 @@
 				DEVELOPMENT_TEAM = QJSM3KYT6N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Reeder;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -420,6 +421,7 @@
 				DEVELOPMENT_TEAM = QJSM3KYT6N;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = Reeder;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

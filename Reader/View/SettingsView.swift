@@ -36,6 +36,14 @@ struct SettingsView: View, Logging {
                     }
                 }
                 .buttonStyle(.plain)
+                
+                Section {
+                    NavigationLink {
+                        AboutView()
+                    } label: {
+                        Text("About")
+                    }
+                }
             }
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
