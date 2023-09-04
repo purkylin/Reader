@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import Kingdom
 
 struct AboutView: View {
     var body: some View {
-        VStack {
+        VStack(spacing: 6) {
             Text(verbatim: appName()).font(.title).bold()
             Text("2023 © purkylin")
+            Text(verbatim: #buildTime)
         }
         .navigationTitle("About")
     }

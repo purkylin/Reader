@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -26,6 +26,7 @@
 		3164B9D12A540E6800514032 /* OPMLParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3164B9D02A540E6800514032 /* OPMLParser.swift */; };
 		3185CB0D2A5697400059C617 /* Article.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3185CB0C2A5697400059C617 /* Article.swift */; };
 		318EDFA12AA5AB1D000B34FD /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318EDFA02AA5AB1D000B34FD /* AboutView.swift */; };
+		318EDFA42AA5AF1C000B34FD /* Kingdom in Frameworks */ = {isa = PBXBuildFile; productRef = 318EDFA32AA5AF1C000B34FD /* Kingdom */; };
 		31AAFB2D2A56B26500D23ADF /* ToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AAFB2C2A56B26500D23ADF /* ToastModifier.swift */; };
 		31AAFB312A56D16C00D23ADF /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AAFB302A56D16C00D23ADF /* AlertModifier.swift */; };
 		31E32BD02A4A935C00836F38 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E32BCF2A4A935C00836F38 /* WebView.swift */; };
@@ -64,6 +65,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				318EDFA42AA5AF1C000B34FD /* Kingdom in Frameworks */,
 				31E32BD52A4AE98400836F38 /* Kingfisher in Frameworks */,
 				3130ADE92A482AE300B438F9 /* SwiftyXMLParser in Frameworks */,
 			);
@@ -176,6 +178,7 @@
 			packageProductDependencies = (
 				3130ADE82A482AE300B438F9 /* SwiftyXMLParser */,
 				31E32BD42A4AE98400836F38 /* Kingfisher */,
+				318EDFA32AA5AF1C000B34FD /* Kingdom */,
 			);
 			productName = Reader;
 			productReference = 3130ADD02A482A0C00B438F9 /* Reader.app */;
@@ -207,6 +210,7 @@
 			packageReferences = (
 				3130ADE72A482AE300B438F9 /* XCRemoteSwiftPackageReference "SwiftyXMLParser" */,
 				31E32BD32A4AE98400836F38 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+				318EDFA22AA5AF1C000B34FD /* XCLocalSwiftPackageReference "Kingdom" */,
 			);
 			productRefGroup = 3130ADD12A482A0C00B438F9 /* Products */;
 			projectDirPath = "";
@@ -464,6 +468,13 @@
 		};
 /* End XCConfigurationList section */
 
+/* Begin XCLocalSwiftPackageReference section */
+		318EDFA22AA5AF1C000B34FD /* XCLocalSwiftPackageReference "Kingdom" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = Kingdom;
+		};
+/* End XCLocalSwiftPackageReference section */
+
 /* Begin XCRemoteSwiftPackageReference section */
 		3130ADE72A482AE300B438F9 /* XCRemoteSwiftPackageReference "SwiftyXMLParser" */ = {
 			isa = XCRemoteSwiftPackageReference;
@@ -488,6 +499,10 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3130ADE72A482AE300B438F9 /* XCRemoteSwiftPackageReference "SwiftyXMLParser" */;
 			productName = SwiftyXMLParser;
+		};
+		318EDFA32AA5AF1C000B34FD /* Kingdom */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Kingdom;
 		};
 		31E32BD42A4AE98400836F38 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
