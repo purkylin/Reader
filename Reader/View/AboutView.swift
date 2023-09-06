@@ -12,7 +12,7 @@ struct AboutView: View {
     var body: some View {
         VStack(spacing: 6) {
             Text(verbatim: appName()).font(.title).bold()
-            Text("2023 © purkylin")
+            Text("2023 © Purkylin")
             Text(verbatim: #buildTime)
         }
         .navigationTitle("About")
