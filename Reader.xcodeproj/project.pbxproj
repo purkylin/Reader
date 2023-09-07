@@ -16,6 +16,7 @@
 		3130ADE92A482AE300B438F9 /* SwiftyXMLParser in Frameworks */ = {isa = PBXBuildFile; productRef = 3130ADE82A482AE300B438F9 /* SwiftyXMLParser */; };
 		3130ADEB2A48424300B438F9 /* FeedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3130ADEA2A48424300B438F9 /* FeedListView.swift */; };
 		3130ADED2A48426E00B438F9 /* FeedDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3130ADEC2A48426E00B438F9 /* FeedDetailView.swift */; };
+		3152746C2AA99C6D001F29A1 /* ConfettiSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 3152746B2AA99C6D001F29A1 /* ConfettiSwiftUI */; };
 		3164B9C22A52776000514032 /* ViewDidLoadModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3164B9C12A52776000514032 /* ViewDidLoadModifier.swift */; };
 		3164B9C42A52795500514032 /* DateFormatterFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3164B9C32A52795500514032 /* DateFormatterFactory.swift */; };
 		3164B9C62A52C68800514032 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3164B9C52A52C68800514032 /* Logging.swift */; };
@@ -67,6 +68,7 @@
 			files = (
 				318EDFA42AA5AF1C000B34FD /* Kingdom in Frameworks */,
 				31E32BD52A4AE98400836F38 /* Kingfisher in Frameworks */,
+				3152746C2AA99C6D001F29A1 /* ConfettiSwiftUI in Frameworks */,
 				3130ADE92A482AE300B438F9 /* SwiftyXMLParser in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -179,6 +181,7 @@
 				3130ADE82A482AE300B438F9 /* SwiftyXMLParser */,
 				31E32BD42A4AE98400836F38 /* Kingfisher */,
 				318EDFA32AA5AF1C000B34FD /* Kingdom */,
+				3152746B2AA99C6D001F29A1 /* ConfettiSwiftUI */,
 			);
 			productName = Reader;
 			productReference = 3130ADD02A482A0C00B438F9 /* Reader.app */;
@@ -211,6 +214,7 @@
 				3130ADE72A482AE300B438F9 /* XCRemoteSwiftPackageReference "SwiftyXMLParser" */,
 				31E32BD32A4AE98400836F38 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				318EDFA22AA5AF1C000B34FD /* XCLocalSwiftPackageReference "Kingdom" */,
+				3152746A2AA99C6D001F29A1 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */,
 			);
 			productRefGroup = 3130ADD12A482A0C00B438F9 /* Products */;
 			projectDirPath = "";
@@ -484,6 +488,14 @@
 				minimumVersion = 5.6.0;
 			};
 		};
+		3152746A2AA99C6D001F29A1 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/simibac/ConfettiSwiftUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.0;
+			};
+		};
 		31E32BD32A4AE98400836F38 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher";
@@ -499,6 +511,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 3130ADE72A482AE300B438F9 /* XCRemoteSwiftPackageReference "SwiftyXMLParser" */;
 			productName = SwiftyXMLParser;
+		};
+		3152746B2AA99C6D001F29A1 /* ConfettiSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3152746A2AA99C6D001F29A1 /* XCRemoteSwiftPackageReference "ConfettiSwiftUI" */;
+			productName = ConfettiSwiftUI;
 		};
 		318EDFA32AA5AF1C000B34FD /* Kingdom */ = {
 			isa = XCSwiftPackageProductDependency;

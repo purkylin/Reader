@@ -7,8 +7,11 @@
 
 import SwiftUI
 import Kingdom
+import ConfettiSwiftUI
 
 struct AboutView: View {
+    @State private var confettiValue = 0
+    
     var body: some View {
         VStack(spacing: 6) {
             VStack(spacing: 12) {
@@ -25,7 +28,15 @@ struct AboutView: View {
             }
         }
         .background(Color(uiColor: .systemGroupedBackground))
+        .overlay(alignment: .bottom, content: {
+            EmptyView()
+                .confettiCannon(counter: $confettiValue, num: 50, radius: UIScreen.main.bounds.height * 0.8)
+        })
         .navigationTitle("About")
+        .task {
+            try? await Task.sleep(for: .seconds(1))
+            confettiValue += 1
+        }
     }
     
     private func appName() -> String {
