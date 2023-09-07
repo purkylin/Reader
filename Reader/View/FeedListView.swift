@@ -80,7 +80,9 @@ struct FeedListView: View, Logging {
             }
         }
         .task {
-            await refresh()
+            if scenePhase == .active {
+                await refresh()
+            }
         }
         .task {
             try? Tips.configure([
@@ -117,7 +119,7 @@ struct FeedListView: View, Logging {
     
     private func refresh(force: Bool = false) async {
         // TODO: the state is not active when pull refresh
-        guard scenePhase == .active else { return }
+        // guard scenePhase == .active else { return }
         await store.refresh(feeds: items, force: force)
     }
     
