@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct SettingsView: View, Logging {
     @State private var showImport = false
@@ -41,7 +42,7 @@ struct SettingsView: View, Logging {
                     NavigationLink {
                         AboutView()
                     } label: {
-                        Text("About")
+                        Label("About", systemImage: "info.circle")
                     }
                 }
             }
@@ -99,8 +100,6 @@ struct SettingsView: View, Logging {
         }
     }
 }
-
-import SwiftData
 
 extension Feed {
     static func getAll(in context: ModelContext) throws -> [Feed] {
