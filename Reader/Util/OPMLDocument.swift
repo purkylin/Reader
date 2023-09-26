@@ -17,7 +17,7 @@ struct OpmlDocument: FileDocument {
     }
     
     static var pubType: UTType {
-        UTType(filenameExtension: "opml", conformingTo: .xml)!
+        UTType(filenameExtension: "opml")!
     }
     
     init(configuration: ReadConfiguration) throws {
