@@ -32,14 +32,14 @@ actor BackgroundActor: Logging {
         let context = self.modelContext
         
         do {
-            let threshold = 1000
+            let threshold = 500
             let predicate = #Predicate<Feed> { $0.articles.count > threshold }
             let feeds = try context.fetch(FetchDescriptor(predicate: predicate))
             for feed in feeds {
                 let filterTitle = feed.title
                 let articlePredicate = #Predicate<Article> { $0.feed?.title == filterTitle }
                 var desc = FetchDescriptor(predicate: articlePredicate, sortBy: [SortDescriptor(\.pubDate, order: .forward)])
-                desc.fetchLimit = max(feeds.count - threshold, 0)
+                desc.fetchLimit = max(feed.articles.count - threshold, 0)
                 let toDeleteArticles = try context.fetch(desc)
                 for article in toDeleteArticles {
                     context.delete(article)
