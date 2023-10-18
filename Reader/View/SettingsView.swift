@@ -25,7 +25,7 @@ struct SettingsView: View, Logging {
             Form {
                 Section {
                     Toggle(isOn: $enabledAutoClean) {
-                        Text("Auto clearn old articles")
+                        Label("Auto clearn old articles", systemImage: "paintbrush")
                     }
                 }
                 

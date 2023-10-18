@@ -97,12 +97,7 @@ struct FeedListView: View, Logging {
     @ToolbarContentBuilder
     private var toolbar: some ToolbarContent {
         ToolbarItem(placement: .status) {
-//            let text = store.lastUpdateTime
-//                .map { "Updated \(DateFormatterFactory.relativeString($0) )"}
-//            Text(text ?? "").font(.footnote)
-//                    .foregroundStyle(.secondary)
             if let time = store.lastUpdateTime {
-//                Text(time, style: .relative)
                 UpdateTimeFooter(date: time)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
@@ -143,13 +138,10 @@ struct FeedListView: View, Logging {
                 .frame(width: 50, height: 30)
             
             VStack(alignment: .leading) {
-                Text(item.title).bold()
+                Text(item.title).font(.headline)
                 if let date = item.lastUpdateTime(in: modelContext) {
-                    Group {
-                        Text("updated ") +
-                        Text(DateFormatterFactory.relativeString(date))
-                    }
-                    .font(.subheadline)
+                    Text(DateFormatterFactory.dateString(date))
+                        .font(.subheadline)
                 }
             }
             .badge(item.unreadCount(in: modelContext))
