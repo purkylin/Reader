@@ -139,12 +139,12 @@ struct FeedListView: View, Logging {
             
             VStack(alignment: .leading) {
                 Text(item.title).font(.headline)
-                if let date = item.lastUpdateTime(in: modelContext) {
+                if let date = item.lastUpdateTime() {
                     Text(DateFormatterFactory.dateString(date))
                         .font(.subheadline)
                 }
             }
-            .badge(item.unreadCount(in: modelContext))
+            .badge(item.unreadCount())
             .badgeProminence(.increased)
         }
     }

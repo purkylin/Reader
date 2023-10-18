@@ -39,7 +39,7 @@ struct FeedDetailView: View {
         List {
             ForEach(articles, id: \.id) { article in
                 VStack(alignment: .leading) {
-                    Text(article.title).lineLimit(3)
+                    Text(article.title).font(.headline).lineLimit(3)
                     HStack {
                         Spacer()
                         Text(DateFormatterFactory.dateString(article.pubDate)).font(.subheadline)
@@ -50,6 +50,11 @@ struct FeedDetailView: View {
                     markRead(for: article)
                 }
                 .foregroundColor(article.viewed ? .secondary : .primary)
+            }
+        }
+        .overlay {
+            if articles.isEmpty {
+                ContentUnavailableView("No articles", systemImage: "square.on.square")
             }
         }
         .navigationTitle(Text(feed.title))
@@ -84,10 +89,10 @@ struct FeedInfoView: View {
     
     var body: some View {
         VStack {
-            Text(feed.title) + Text(": \(feed.articles.count)")
+            Text("Total: \(feed.articles.count)")
             Link(destination: feed.homepage) {
                 HStack {
-                    Text("Homepage")
+                    Text("Open homepage")
                     Spacer()
                     Image(systemName: "safari")
                 }
@@ -95,7 +100,7 @@ struct FeedInfoView: View {
             Button {
                 UIPasteboard.general.url = feed.url
             } label: {
-                Label("Copy", systemImage: "doc.on.doc")
+                Label("Copy site link", systemImage: "doc.on.doc")
             }
             
             Button {

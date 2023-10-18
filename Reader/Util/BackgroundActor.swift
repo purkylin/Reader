@@ -16,18 +16,21 @@ actor BackgroundActor: Logging {
         task(modelContext)
     }
     
-    func updateFeed(_ feed: Feed, items: [RssSourceDTO.Item]) {
-        let lastUdateTime = feed.lastUpdateTime(in: modelContext) ?? Date(timeIntervalSince1970: 0)
+    /// update feed
+    func updateFeed(_ feed: Feed, with items: [RssSourceDTO.Item]) {
+        let entry = modelContext.model(for: feed.persistentModelID) as! Feed
+        let lastUdateTime = entry.lastUpdateTime() ?? Date(timeIntervalSince1970: 0)
         
         for item in items {
             if item.pubDate > lastUdateTime {
                 let article = Article.article(from: item, in: modelContext)
-                article.feed = feed
+                article.feed = entry
                 modelContext.insert(article)
             }
         }
     }
     
+    /// Clean old articles
     func clean() async {
         let context = self.modelContext
         

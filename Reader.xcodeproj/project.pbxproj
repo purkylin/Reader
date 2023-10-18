@@ -99,7 +99,7 @@
 			children = (
 				3130ADD32A482A0C00B438F9 /* ReaderApp.swift */,
 				3130ADD52A482A0C00B438F9 /* ContentView.swift */,
-				31A281ED2ADFB3D0009A6F64 /* Tip */,
+				31A281ED2ADFB3D0009A6F64 /* Tips */,
 				3164B9CB2A53FDF100514032 /* View */,
 				3185CB0E2A5697490059C617 /* Model */,
 				3164B9D22A54119800514032 /* Util */,
@@ -164,12 +164,12 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		31A281ED2ADFB3D0009A6F64 /* Tip */ = {
+		31A281ED2ADFB3D0009A6F64 /* Tips */ = {
 			isa = PBXGroup;
 			children = (
 				31A281EE2ADFB3EC009A6F64 /* AddFeedTip.swift */,
 			);
-			path = Tip;
+			path = Tips;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

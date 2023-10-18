@@ -20,13 +20,12 @@ class Store: Logging {
         logger.info("home directory: \(NSHomeDirectory())")
     }
     
-    @MainActor
     func addFeed(url: URL, in context: ModelContext) async throws {
         let dto = try await fetchWebFeed(url: url)
         let newFeed =  Feed(url: url, title: dto.title, homepage: dto.link, desc: dto.desc, logo: dto.logo, articles: [])
         context.insert(newFeed)
         try context.save()
-        await databaseActor.updateFeed(newFeed, items: dto.items)
+        await databaseActor.updateFeed(newFeed, with: dto.items)
     }
     
     private func fetchWebFeed(url: URL) async throws -> RssSourceDTO {
@@ -44,19 +43,19 @@ class Store: Logging {
     
         logger.trace("refreshing...")
     
-        for item in feeds {
+        for feed in feeds {
             do {
-                try await updateFeed(item)
+                try await updateFeed(feed)
                 self.lastUpdateTime = .now
             } catch {
-                logger.error("\(error.localizedDescription)")
+                logger.error("update feed \(feed.title) failed: \(error.localizedDescription)")
             }
         }
     }
     
     private func updateFeed(_ feed: Feed) async throws {
         let dto = try await fetchWebFeed(url: feed.url)
-        await databaseActor.updateFeed(feed, items: dto.items)
+        await databaseActor.updateFeed(feed, with: dto.items)
     }
 }
 
@@ -66,14 +65,15 @@ extension Feed {
         return try context.fetch(FetchDescriptor(predicate: predicate)).first
     }
     
-    // @MainActor
-    func lastUpdateTime(in context: ModelContext) -> Date? {
+    func lastUpdateTime() -> Date? {
+        guard let context = self.modelContext else { return nil }
         let name = self.title
         let predicate = #Predicate<Article> { $0.feed?.title == name }
         return try? context.fetch(FetchDescriptor(predicate: predicate, sortBy: [SortDescriptor(\.pubDate, order: .reverse)])).first?.pubDate
     }
     
-    func unreadCount(in context: ModelContext) -> Int {
+    func unreadCount() -> Int {
+        guard let context = self.modelContext else { return 0 }
         let name = self.title
         let predicate = #Predicate<Article> { $0.feed?.title == name && $0.viewed == false }
         return try! context.fetch(FetchDescriptor(predicate: predicate)).count
