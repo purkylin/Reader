@@ -14,10 +14,9 @@ import TipKit
 struct FeedListView: View, Logging {
     @Binding var selection: Feed?
     
-    private let addTip = MyTip()
+    private var tip = AddFeedTip()
     
     @Environment(Store.self) var store
-    
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) var scenePhase
 
@@ -29,12 +28,15 @@ struct FeedListView: View, Logging {
     @State private var showSettings = false
     @State private var currentError: AlertError?
     
+    init(selection: Binding<Feed?>) {
+        self._selection = selection
+    }
+    
     var body: some View {
         List(selection: $selection) {
-            // TipView(MyTip(), arrowEdge: .bottom)
             ForEach(items, id: \.title) { item in
                 NavigationLink(value: item) {
-                    view(for: item)
+                    card(for: item)
                 }
             }
             .onDelete(perform: deleteItems)
@@ -85,10 +87,10 @@ struct FeedListView: View, Logging {
             }
         }
         .task {
-            try? Tips.configure([
-                .datastoreLocation(.applicationDefault),
-                .displayFrequency(.immediate)
-            ])
+            // show tip if empty list
+            if !AddFeedTip.donated && !items.isEmpty {
+                AddFeedTip.donated = true
+            }
         }
     }
     
@@ -113,7 +115,7 @@ struct FeedListView: View, Logging {
             } label: {
                 Image(systemName: "plus")
             }
-            .popoverTip(MyTip(), arrowEdge: .bottom)
+            .popoverTip(tip, arrowEdge: .bottom)
         }
     }
     
@@ -124,7 +126,7 @@ struct FeedListView: View, Logging {
     }
     
     @ViewBuilder
-    private func view(for item: Feed) -> some View {
+    private func card(for item: Feed) -> some View {
         HStack {
             KFImage(item.icon)
                 .placeholder({
@@ -176,44 +178,5 @@ struct FeedListView: View, Logging {
                 self.currentError = AlertError(error)
             }
         }
-    }
-}
-
-struct MyTip: Tip {
-    @Parameter
-    static var isLoggedIn: Bool = false
-    
-    static let enterDetailEvent: Event = Event<DetailDonation>(id: "enter_detail")
-    
-    var title: Text {
-        Text("Add new feed")
-    }
-    
-    var message: Text? {
-        Text("More articles in your feed")
-    }
-    
-    var asset: Image? {
-        Image(systemName: "star")
-    }
-    
-    // var actions: [Action] {
-    //     [
-    //         Tips.Action(title: "Perform") {
-    //             print("oh my god")
-    //         }
-    //     ]
-    // }
-    
-    // var rules: [Rule] {
-    //     [
-    //         #Rule(Self.enterDetailEvent) { $0.count >= 3 }
-    //     ]
-    // }
-}
-
-extension MyTip {
-    struct DetailDonation: Codable, Sendable {
-        let id: String
     }
 }

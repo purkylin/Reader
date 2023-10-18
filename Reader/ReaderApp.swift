@@ -24,6 +24,15 @@ struct ReaderApp: App {
             ContentView()
                 .environment(store)
                 .task {
+#if DEBUG
+                    try? Tips.resetDatastore()
+#endif
+                    
+                    try? Tips.configure([
+                        .datastoreLocation(.applicationDefault),
+                        .displayFrequency(.immediate)
+                    ])
+                    
                     if enabledAutoClean {
                         await databaseActor.clean()
                     }

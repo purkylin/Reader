@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import TipKit
 
 struct SettingsView: View, Logging {
     @State private var showImport = false
