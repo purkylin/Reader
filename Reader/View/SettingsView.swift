@@ -88,7 +88,10 @@ struct SettingsView: View, Logging {
     
     private func importOPML(_ url: URL) async {
         do {
+            _ = url.startAccessingSecurityScopedResource()
             let data = try Data(contentsOf: url)
+            url.stopAccessingSecurityScopedResource()
+            
             let obj = try OPMLParser.parse(data: data)
             let items = obj.sections.flatMap { $0.items }
             
