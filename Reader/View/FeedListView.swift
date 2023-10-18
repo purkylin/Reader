@@ -97,10 +97,16 @@ struct FeedListView: View, Logging {
     @ToolbarContentBuilder
     private var toolbar: some ToolbarContent {
         ToolbarItem(placement: .status) {
-            let text = store.lastUpdateTime
-                .map { "Updated \(DateFormatterFactory.relativeString($0) )"}
-            Text(text ?? "").font(.footnote)
+//            let text = store.lastUpdateTime
+//                .map { "Updated \(DateFormatterFactory.relativeString($0) )"}
+//            Text(text ?? "").font(.footnote)
+//                    .foregroundStyle(.secondary)
+            if let time = store.lastUpdateTime {
+//                Text(time, style: .relative)
+                UpdateTimeFooter(date: time)
+                    .font(.footnote)
                     .foregroundStyle(.secondary)
+            }
         }
         ToolbarItem(placement: .bottomBar) {
             Button {
@@ -177,6 +183,27 @@ struct FeedListView: View, Logging {
                 logger.error("save faield for url: \(url), \(error)")
                 self.currentError = AlertError(error)
             }
+        }
+    }
+}
+
+struct UpdateTimeFooter: View {
+    let date: Date
+    private let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
+    
+    @State private var label = ""
+    
+    init(date: Date) {
+        self.date = date
+        _label = State(initialValue: DateFormatterFactory.relativeString(date))
+    }
+    
+    var body: some View {
+        Group {
+            Text("Update: ") + Text(label)
+        }
+        .onReceive(timer) { _ in
+            label = DateFormatterFactory.relativeString(date)
         }
     }
 }
