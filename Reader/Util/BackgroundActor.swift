@@ -26,7 +26,17 @@ actor BackgroundActor: Logging {
                 let article = Article.article(from: item, in: modelContext)
                 article.feed = entry
                 modelContext.insert(article)
+                
             }
+        }
+        
+        try? save()
+    }
+    
+    private func save() throws {
+        // autosaveEnabled is false for new context by hand
+        if modelContext.hasChanges {
+            try modelContext.save()
         }
     }
     
@@ -48,9 +58,10 @@ actor BackgroundActor: Logging {
                     context.delete(article)
                 }
                 
-                try context.save()
                 logger.info("clean old article for feed: \(feed.title) success")
             }
+            
+            try context.save()
         } catch {
             logger.error("\(error.localizedDescription)")
         }
