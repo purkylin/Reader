@@ -45,6 +45,7 @@ struct FeedDetailView: View {
                         Text(DateFormatterFactory.dateString(article.pubDate)).font(.subheadline)
                     }
                 }
+                .contentShape(Rectangle())
                 .onTapGesture {
                     selectedArticle = article
                     markRead(for: article)
