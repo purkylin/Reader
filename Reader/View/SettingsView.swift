@@ -115,7 +115,7 @@ struct SettingsView: View, Logging {
             }
             
             isLoading = false
-            toastEntry = ToastEntry(style: .success, msg: "Import success")
+            toastEntry = ToastEntry(style: .success, msg: "Import finished")
         } catch {
             isLoading = false
             logger.error("\(error.localizedDescription)")
