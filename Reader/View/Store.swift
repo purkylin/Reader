@@ -20,12 +20,9 @@ class Store: Logging {
         logger.info("home directory: \(NSHomeDirectory())")
     }
     
-    func addFeed(url: URL, in context: ModelContext) async throws {
+    func addFeed(url: URL) async throws {
         let dto = try await fetchWebFeed(url: url)
-        let newFeed =  Feed(url: url, title: dto.title, homepage: dto.link, desc: dto.desc, logo: dto.logo, articles: [])
-        context.insert(newFeed)
-        try context.save()
-        await databaseActor.updateFeed(newFeed, with: dto.items)
+        try await databaseActor.addFeed(url: url, dto: dto)
     }
     
     private func fetchWebFeed(url: URL) async throws -> RssSourceDTO {
@@ -55,7 +52,7 @@ class Store: Logging {
     
     private func updateFeed(_ feed: Feed) async throws {
         let dto = try await fetchWebFeed(url: feed.url)
-        await databaseActor.updateFeed(feed, with: dto.items)
+        try await databaseActor.updateFeed(feed.persistentModelID, items: dto.items)
     }
 }
 

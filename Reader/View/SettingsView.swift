@@ -13,12 +13,14 @@ struct SettingsView: View, Logging {
     @State private var showImport = false
     @State private var showExport = false
     @State private var document: OpmlDocument?
+    @State private var toastEntry: ToastEntry?
     
     @AppStorage("EnabledAutoClean") var enabledAutoClean = false
     
     @Environment(Store.self) private var store
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
+    
     
     var body: some View {
         NavigationStack {
@@ -67,8 +69,10 @@ struct SettingsView: View, Logging {
                     }
                 case .failure(let error):
                     logger.error("import failed: \(error.localizedDescription)")
+                    toastEntry = ToastEntry(style: .error, msg: error.localizedDescription)
                 }
             }
+            .toast(entry: $toastEntry)
         }
     }
     
@@ -79,6 +83,7 @@ struct SettingsView: View, Logging {
             document = OpmlDocument(feeds: feeds)
         } catch {
             logger.error("export failed: \(error.localizedDescription)")
+            toastEntry = ToastEntry(style: .error, msg: error.localizedDescription)
         }
     }
     
@@ -96,11 +101,12 @@ struct SettingsView: View, Logging {
             let items = obj.sections.flatMap { $0.items }
             
             for item in items {
-                try await store.addFeed(url: item.xmlUrl, in: modelContext)
+                try await store.addFeed(url: item.xmlUrl)
             }
-            
+            toastEntry = ToastEntry(style: .success, msg: "Import success")
         } catch {
             logger.error("\(error.localizedDescription)")
+            toastEntry = ToastEntry(style: .error, msg: error.localizedDescription)
         }
     }
 }

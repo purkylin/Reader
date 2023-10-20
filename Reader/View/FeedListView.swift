@@ -14,8 +14,6 @@ import TipKit
 struct FeedListView: View, Logging {
     @Binding var selection: Feed?
     
-    private var tip = AddFeedTip()
-    
     @Environment(Store.self) var store
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) var scenePhase
@@ -27,6 +25,10 @@ struct FeedListView: View, Logging {
     @State private var showAdd = false
     @State private var showSettings = false
     @State private var currentError: AlertError?
+    
+    @State private var toastEntry: ToastEntry?
+    
+    private var tip = AddFeedTip()
     
     init(selection: Binding<Feed?>) {
         self._selection = selection
@@ -71,6 +73,7 @@ struct FeedListView: View, Logging {
             }
         })
         .alert(error: $currentError)
+        .toast(entry: $toastEntry)
         .toolbar {
             toolbar
         }
@@ -159,21 +162,22 @@ struct FeedListView: View, Logging {
     
     private func saveAction() {
         guard let url = URL(string: newUrl) else {
-            currentError = "Invalid url"
+            self.toastEntry = ToastEntry(style: .error, msg: "Invalid url")
             return
         }
         
-        Task { @MainActor in
+        Task {
             isLoading = true
             defer {
                 isLoading = false
             }
             
             do {
-                try await store.addFeed(url: url, in: modelContext)
+                try await store.addFeed(url: url)
+                self.toastEntry = ToastEntry(style: .success, msg: "Add feed success")
             } catch {
                 logger.error("save faield for url: \(url), \(error)")
-                self.currentError = AlertError(error)
+                self.toastEntry = ToastEntry(style: .error, msg: error.localizedDescription)
             }
         }
     }

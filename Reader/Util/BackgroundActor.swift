@@ -16,21 +16,32 @@ actor BackgroundActor: Logging {
         task(modelContext)
     }
     
-    /// update feed
-    func updateFeed(_ feed: Feed, with items: [RssSourceDTO.Item]) {
-        let entry = modelContext.model(for: feed.persistentModelID) as! Feed
-        let lastUdateTime = entry.lastUpdateTime() ?? Date(timeIntervalSince1970: 0)
+    /// Add feed
+    func addFeed(url: URL, dto: RssSourceDTO) throws {
+        let feed =  Feed(url: url, title: dto.title, homepage: dto.link, desc: dto.desc, logo: dto.logo, articles: [])
+        modelContext.insert(feed)
+        try updateFeed(feed, with: dto.items)
+        try save()
+    }
+    
+    func updateFeed(_ identifier: PersistentIdentifier, items: [RssSourceDTO.Item]) throws {
+        let feed = modelContext.model(for: identifier) as! Feed
+        try updateFeed(feed, with: items)
+    }
+    
+    /// Update feed
+    private func updateFeed(_ feed: Feed, with items: [RssSourceDTO.Item]) throws {
+        let lastUdateTime = feed.lastUpdateTime() ?? Date(timeIntervalSince1970: 0)
         
         for item in items {
             if item.pubDate > lastUdateTime {
                 let article = Article.article(from: item, in: modelContext)
-                article.feed = entry
+                article.feed = feed
                 modelContext.insert(article)
-                
             }
         }
         
-        try? save()
+        try save()
     }
     
     private func save() throws {
