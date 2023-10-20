@@ -51,11 +51,7 @@ struct FeedListView: View, Logging {
                 ContentUnavailableView("No Data", systemImage: "square.on.square")
             }
         }
-        .overlay {
-            if isLoading {
-                ProgressView().progressViewStyle(.circular)
-            }
-        }
+        .loading($isLoading)
         .sheet(isPresented: $showSettings) {
             SettingsView()
         }

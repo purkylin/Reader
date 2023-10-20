@@ -7,13 +7,13 @@
 
 import SwiftUI
 import SwiftData
-import TipKit
 
 struct SettingsView: View, Logging {
     @State private var showImport = false
     @State private var showExport = false
     @State private var document: OpmlDocument?
     @State private var toastEntry: ToastEntry?
+    @State private var isLoading = false
     
     @AppStorage("EnabledAutoClean") var enabledAutoClean = false
     
@@ -72,6 +72,7 @@ struct SettingsView: View, Logging {
                     toastEntry = ToastEntry(style: .error, msg: error.localizedDescription)
                 }
             }
+            .loading($isLoading)
             .toast(entry: $toastEntry)
         }
     }
@@ -91,7 +92,10 @@ struct SettingsView: View, Logging {
         showImport = true
     }
     
+    @MainActor
     private func importOPML(_ url: URL) async {
+        isLoading = true
+        
         do {
             _ = url.startAccessingSecurityScopedResource()
             let data = try Data(contentsOf: url)
@@ -101,10 +105,19 @@ struct SettingsView: View, Logging {
             let items = obj.sections.flatMap { $0.items }
             
             for item in items {
-                try await store.addFeed(url: item.xmlUrl)
+                do {
+                    try await store.addFeed(url: item.xmlUrl)
+                } catch {
+                    let msg = "Import feed: \(item.title) failed, \(error.localizedDescription)"
+                    logger.error("\(msg)")
+                    toastEntry = ToastEntry(style: .error, msg: msg)
+                }
             }
+            
+            isLoading = false
             toastEntry = ToastEntry(style: .success, msg: "Import success")
         } catch {
+            isLoading = false
             logger.error("\(error.localizedDescription)")
             toastEntry = ToastEntry(style: .error, msg: error.localizedDescription)
         }
