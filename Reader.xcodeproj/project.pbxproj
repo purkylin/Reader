@@ -29,7 +29,7 @@
 		318EDFA12AA5AB1D000B34FD /* AboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318EDFA02AA5AB1D000B34FD /* AboutView.swift */; };
 		318EDFA42AA5AF1C000B34FD /* Kingdom in Frameworks */ = {isa = PBXBuildFile; productRef = 318EDFA32AA5AF1C000B34FD /* Kingdom */; };
 		31A281EF2ADFB3EC009A6F64 /* AddFeedTip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A281EE2ADFB3EC009A6F64 /* AddFeedTip.swift */; };
-		31AAFB2D2A56B26500D23ADF /* ToastModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AAFB2C2A56B26500D23ADF /* ToastModifier.swift */; };
+		31A281F12AE0D130009A6F64 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A281F02AE0D130009A6F64 /* Toast.swift */; };
 		31AAFB312A56D16C00D23ADF /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AAFB302A56D16C00D23ADF /* AlertModifier.swift */; };
 		31E32BD02A4A935C00836F38 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E32BCF2A4A935C00836F38 /* WebView.swift */; };
 		31E32BD52A4AE98400836F38 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 31E32BD42A4AE98400836F38 /* Kingfisher */; };
@@ -57,7 +57,7 @@
 		3185CB0C2A5697400059C617 /* Article.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Article.swift; sourceTree = "<group>"; };
 		318EDFA02AA5AB1D000B34FD /* AboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutView.swift; sourceTree = "<group>"; };
 		31A281EE2ADFB3EC009A6F64 /* AddFeedTip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFeedTip.swift; sourceTree = "<group>"; };
-		31AAFB2C2A56B26500D23ADF /* ToastModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastModifier.swift; sourceTree = "<group>"; };
+		31A281F02AE0D130009A6F64 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		31AAFB302A56D16C00D23ADF /* AlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModifier.swift; sourceTree = "<group>"; };
 		31E32BCF2A4A935C00836F38 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		31EAE0322A5BE6C500659180 /* BackgroundActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundActor.swift; sourceTree = "<group>"; };
@@ -122,7 +122,6 @@
 			isa = PBXGroup;
 			children = (
 				3164B9C12A52776000514032 /* ViewDidLoadModifier.swift */,
-				31AAFB2C2A56B26500D23ADF /* ToastModifier.swift */,
 				31AAFB302A56D16C00D23ADF /* AlertModifier.swift */,
 			);
 			path = Modifier;
@@ -135,6 +134,7 @@
 				3130ADEC2A48426E00B438F9 /* FeedDetailView.swift */,
 				3164B9CE2A540A7F00514032 /* SettingsView.swift */,
 				318EDFA02AA5AB1D000B34FD /* AboutView.swift */,
+				31A281F02AE0D130009A6F64 /* Toast.swift */,
 				3164B9CC2A54012C00514032 /* Store.swift */,
 			);
 			path = View;
@@ -265,13 +265,13 @@
 				3130ADE62A482A3800B438F9 /* RssSourceDTO.swift in Sources */,
 				3164B9C42A52795500514032 /* DateFormatterFactory.swift in Sources */,
 				3130ADD42A482A0C00B438F9 /* ReaderApp.swift in Sources */,
-				31AAFB2D2A56B26500D23ADF /* ToastModifier.swift in Sources */,
 				3164B9CD2A54012C00514032 /* Store.swift in Sources */,
 				3164B9CA2A53F2F600514032 /* OPMLExporter.swift in Sources */,
 				3164B9C82A53F2A200514032 /* OPMLDocument.swift in Sources */,
 				3164B9C22A52776000514032 /* ViewDidLoadModifier.swift in Sources */,
 				3185CB0D2A5697400059C617 /* Article.swift in Sources */,
 				3130ADE42A482A2C00B438F9 /* Feed.swift in Sources */,
+				31A281F12AE0D130009A6F64 /* Toast.swift in Sources */,
 				3130ADED2A48426E00B438F9 /* FeedDetailView.swift in Sources */,
 				31A281EF2ADFB3EC009A6F64 /* AddFeedTip.swift in Sources */,
 			);
