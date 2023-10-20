@@ -40,21 +40,29 @@ struct AboutView: View {
     }
     
     private func appName() -> String {
-        let name = Bundle.main.object(forInfoDictionaryKey: "CFBundleDisplayName") as? String
-        return name ?? "Unknown"
+        let value = Bundle.main.object(forInfoDictionaryKey: InfoKeys.displayName) as? String
+        return value.unwrap()
     }
     
     private func appVersion() -> String {
-        Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "Unknown"
+        let value = Bundle.main.object(forInfoDictionaryKey: InfoKeys.shortVersion) as? String
+        return value.unwrap()
     }
     
-    private func appBuildNumber() -> Int {
-        Bundle.main.object(forInfoDictionaryKey: "CFBundleVersion") as? Int ?? 0
+    private func appBuildNumber() -> String {
+        let value = Bundle.main.object(forInfoDictionaryKey: InfoKeys.bundleVersion) as? String
+        return value.unwrap()
     }
     
     private func versionDescription() -> String {
-        return String(format: "%@(%d)", appVersion(), appBuildNumber())
+        return String(format: "%@(%@)", appVersion(), appBuildNumber())
     }
+}
+
+struct InfoKeys {
+    static let bundleVersion = "CFBundleVersion"
+    static let shortVersion = "CFBundleShortVersionString"
+    static let displayName = "CFBundleDisplayName"
 }
 
 #Preview {
