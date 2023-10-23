@@ -70,9 +70,12 @@ struct FeedListView: View, Logging {
         })
         .alert(error: $currentError)
         .toast(entry: $toastEntry)
-        .toolbar {
+//        .toolbar {
+//            toolbar
+//        }
+        .safeAreaInset(edge: .bottom, content: {
             toolbar
-        }
+        })
         .navigationTitle(Text("Reader"))
         .onChange(of: scenePhase) { _, newValue in
             logger.trace("phase is active: \(newValue == .active)")
@@ -94,7 +97,9 @@ struct FeedListView: View, Logging {
     }
     
     @ToolbarContentBuilder
-    private var toolbar: some ToolbarContent {
+    private var toolbar_legency: some ToolbarContent {
+        // Have bug, so use HStack
+        // https://developer.apple.com/forums/thread/739846?login=true
         ToolbarItem(placement: .status) {
             if let time = store.lastUpdateTime {
                 UpdateTimeFooter(date: time)
@@ -117,6 +122,37 @@ struct FeedListView: View, Logging {
             }
             .popoverTip(tip, arrowEdge: .bottom)
         }
+    }
+    
+    private var toolbar: some View {
+        HStack {
+            Button {
+                showSettings.toggle()
+            } label: {
+                Image(systemName: "gearshape")
+            }
+            
+            Spacer()
+            
+            if let time = store.lastUpdateTime {
+                UpdateTimeFooter(date: time)
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            } else {
+                EmptyView()
+            }
+            
+            Spacer()
+            
+            Button {
+                showAdd.toggle()
+            } label: {
+                Image(systemName: "plus")
+            }
+            .popoverTip(tip, arrowEdge: .bottom)
+        }
+        .padding()
+        .background(.thinMaterial)
     }
     
     private func refresh(force: Bool = false) async {
@@ -146,6 +182,7 @@ struct FeedListView: View, Logging {
             .badge(item.unreadCount())
             .badgeProminence(.increased)
         }
+        .controlSize(.large)
     }
     
     private func deleteItems(at offsets: IndexSet) {
