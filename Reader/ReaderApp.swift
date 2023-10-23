@@ -25,7 +25,7 @@ struct ReaderApp: App {
                 .environment(store)
                 .task {
 #if DEBUG
-                    try? Tips.resetDatastore()
+//                    try? Tips.resetDatastore()
 #endif
                     
                     try? Tips.configure([
