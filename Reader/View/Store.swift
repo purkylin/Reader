@@ -31,14 +31,14 @@ class Store: Logging {
         return source
     }
     
+    @MainActor
     func refresh(feeds: [Feed], force: Bool = false) async {
-        if !force {
-            if let time = lastUpdateTime, Date().timeIntervalSince(time) < mininalRefeshInterval {
-                return
-            }
-        }
+//        if !force {
+//            if let time = lastUpdateTime, Date().timeIntervalSince(time) < mininalRefeshInterval {
+//                return
+//            }
+//        }
     
-        logger.trace("refreshing...")
     
         for feed in feeds {
             do {

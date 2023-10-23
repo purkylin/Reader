@@ -32,6 +32,7 @@
 		31A281F12AE0D130009A6F64 /* Toast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A281F02AE0D130009A6F64 /* Toast.swift */; };
 		31A281F92AE27C2C009A6F64 /* LoadingModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A281F82AE27C2C009A6F64 /* LoadingModifier.swift */; };
 		31A281FB2AE27F6C009A6F64 /* Unwrap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A281FA2AE27F6C009A6F64 /* Unwrap.swift */; };
+		31A281FD2AE688AB009A6F64 /* LogsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31A281FC2AE688AB009A6F64 /* LogsView.swift */; };
 		31AAFB312A56D16C00D23ADF /* AlertModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31AAFB302A56D16C00D23ADF /* AlertModifier.swift */; };
 		31E32BD02A4A935C00836F38 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E32BCF2A4A935C00836F38 /* WebView.swift */; };
 		31E32BD52A4AE98400836F38 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 31E32BD42A4AE98400836F38 /* Kingfisher */; };
@@ -62,6 +63,7 @@
 		31A281F02AE0D130009A6F64 /* Toast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Toast.swift; sourceTree = "<group>"; };
 		31A281F82AE27C2C009A6F64 /* LoadingModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingModifier.swift; sourceTree = "<group>"; };
 		31A281FA2AE27F6C009A6F64 /* Unwrap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Unwrap.swift; sourceTree = "<group>"; };
+		31A281FC2AE688AB009A6F64 /* LogsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogsView.swift; sourceTree = "<group>"; };
 		31AAFB302A56D16C00D23ADF /* AlertModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertModifier.swift; sourceTree = "<group>"; };
 		31E32BCF2A4A935C00836F38 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		31EAE0322A5BE6C500659180 /* BackgroundActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundActor.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				3130ADEA2A48424300B438F9 /* FeedListView.swift */,
 				3130ADEC2A48426E00B438F9 /* FeedDetailView.swift */,
 				3164B9CE2A540A7F00514032 /* SettingsView.swift */,
+				31A281FC2AE688AB009A6F64 /* LogsView.swift */,
 				318EDFA02AA5AB1D000B34FD /* AboutView.swift */,
 				31A281F02AE0D130009A6F64 /* Toast.swift */,
 				3164B9CC2A54012C00514032 /* Store.swift */,
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3164B9D12A540E6800514032 /* OPMLParser.swift in Sources */,
+				31A281FD2AE688AB009A6F64 /* LogsView.swift in Sources */,
 				3164B9CF2A540A7F00514032 /* SettingsView.swift in Sources */,
 				31EAE0332A5BE6C500659180 /* BackgroundActor.swift in Sources */,
 				31AAFB312A56D16C00D23ADF /* AlertModifier.swift in Sources */,

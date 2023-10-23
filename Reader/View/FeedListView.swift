@@ -17,11 +17,13 @@ struct FeedListView: View, Logging {
     @Environment(Store.self) var store
     @Environment(\.modelContext) private var modelContext
     @Environment(\.scenePhase) var scenePhase
+    @Environment(\.refresh) private var refresh
 
     @Query private var items: [Feed]
     
     @State private var newUrl = ""
     @State private var isLoading = false
+    @State private var addingFeed = false
     @State private var showAdd = false
     @State private var showSettings = false
     @State private var currentError: AlertError?
@@ -51,7 +53,7 @@ struct FeedListView: View, Logging {
                 ContentUnavailableView("No Data", systemImage: "square.on.square")
             }
         }
-        .loading($isLoading)
+        .loading($addingFeed)
         .sheet(isPresented: $showSettings) {
             SettingsView()
         }
@@ -70,23 +72,23 @@ struct FeedListView: View, Logging {
         })
         .alert(error: $currentError)
         .toast(entry: $toastEntry)
-//        .toolbar {
-//            toolbar
-//        }
         .safeAreaInset(edge: .bottom, content: {
             toolbar
         })
         .navigationTitle(Text("Reader"))
         .onChange(of: scenePhase) { _, newValue in
             logger.trace("phase is active: \(newValue == .active)")
-            Task {
-                await refresh()
+            if scenePhase == .active {
+                Task {
+                    await refresh()
+                }
             }
         }
         .task {
-            if scenePhase == .active {
-                await refresh()
-            }
+            await refresh()
+        }
+        .onLoad {
+            await refresh()
         }
         .task {
             // show tip if empty list
@@ -155,9 +157,19 @@ struct FeedListView: View, Logging {
         .background(.thinMaterial)
     }
     
+    @MainActor
     private func refresh(force: Bool = false) async {
-        // TODO: the state is not active when pull refresh
-        // guard scenePhase == .active else { return }
+        if isLoading {
+            return
+        }
+        
+        isLoading = true
+        logger.trace("refreshing...")
+        defer {
+            logger.trace("end loading")
+            isLoading = false
+        }
+        
         await store.refresh(feeds: items, force: force)
     }
     
@@ -200,9 +212,9 @@ struct FeedListView: View, Logging {
         }
         
         Task {
-            isLoading = true
+            addingFeed = true
             defer {
-                isLoading = false
+                addingFeed = false
             }
             
             do {

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import OSLog
 
 struct SettingsView: View, Logging {
     @State private var showImport = false
@@ -14,6 +15,7 @@ struct SettingsView: View, Logging {
     @State private var document: OpmlDocument?
     @State private var toastEntry: ToastEntry?
     @State private var isLoading = false
+    @State private var showLogs = false
     
     @AppStorage("EnabledAutoClean") var enabledAutoClean = false
     
@@ -38,6 +40,11 @@ struct SettingsView: View, Logging {
                     Button(action: importAction) {
                         Label("Import", systemImage: "square.and.arrow.down")
                     }
+                    Button {
+                        showLogs = true
+                    } label: {
+                        Label("Show Logs", systemImage: "note.text")
+                    }
                 }
                 .buttonStyle(.plain)
                 
@@ -58,6 +65,9 @@ struct SettingsView: View, Logging {
                     }
                 }
             }
+            .sheet(isPresented: $showLogs, content: {
+                LogsView()
+            })
             .fileExporter(isPresented: $showExport, document: document, contentType: OpmlDocument.pubType, defaultFilename: "my-rss", onCompletion: { result in
                 //
             })
