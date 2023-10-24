@@ -33,21 +33,15 @@ class Store: Logging {
     
     @MainActor
     func refresh(feeds: [Feed], force: Bool = false) async {
-//        if !force {
-//            if let time = lastUpdateTime, Date().timeIntervalSince(time) < mininalRefeshInterval {
-//                return
-//            }
-//        }
-    
-    
         for feed in feeds {
             do {
                 try await updateFeed(feed)
-                self.lastUpdateTime = .now
             } catch {
                 logger.error("update feed \(feed.title) failed: \(error.localizedDescription)")
             }
         }
+        
+        self.lastUpdateTime = .now
     }
     
     private func updateFeed(_ feed: Feed) async throws {

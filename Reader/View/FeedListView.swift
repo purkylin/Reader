@@ -84,9 +84,6 @@ struct FeedListView: View, Logging {
                 }
             }
         }
-        .task {
-            await refresh()
-        }
         .onLoad {
             await refresh()
         }
@@ -98,34 +95,7 @@ struct FeedListView: View, Logging {
         }
     }
     
-    @ToolbarContentBuilder
-    private var toolbar_legency: some ToolbarContent {
-        // Have bug, so use HStack
-        // https://developer.apple.com/forums/thread/739846?login=true
-        ToolbarItem(placement: .status) {
-            if let time = store.lastUpdateTime {
-                UpdateTimeFooter(date: time)
-                    .font(.footnote)
-                    .foregroundStyle(.secondary)
-            }
-        }
-        ToolbarItem(placement: .bottomBar) {
-            Button {
-                showSettings.toggle()
-            } label: {
-                Image(systemName: "gearshape")
-            }
-        }
-        ToolbarItem(placement: .bottomBar) {
-            Button {
-                showAdd.toggle()
-            } label: {
-                Image(systemName: "plus")
-            }
-            .popoverTip(tip, arrowEdge: .bottom)
-        }
-    }
-    
+    // Can not use toolbar directly
     private var toolbar: some View {
         HStack {
             Button {
@@ -138,6 +108,7 @@ struct FeedListView: View, Logging {
             
             if let time = store.lastUpdateTime {
                 UpdateTimeFooter(date: time)
+                    .id(time)
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             } else {
@@ -229,22 +200,36 @@ struct FeedListView: View, Logging {
 }
 
 struct UpdateTimeFooter: View {
-    let date: Date
+    private let date: Date
     private let timer = Timer.publish(every: 60, on: .main, in: .common).autoconnect()
     
     @State private var label = ""
-    
+
     init(date: Date) {
         self.date = date
-        _label = State(initialValue: DateFormatterFactory.relativeString(date))
+        _label = State(wrappedValue: Self.label(for: date))
     }
     
     var body: some View {
-        Group {
+        HStack {
             Text("Update: ") + Text(label)
         }
         .onReceive(timer) { _ in
-            label = DateFormatterFactory.relativeString(date)
+            label = Self.label(for: date)
+        }
+    }
+    
+    private static func label(for date: Date) -> String {
+        return DateFormatterFactory.relativeString(date)
+    }
+}
+
+extension Binding  {
+    func unwrap<T>(defaultValue: T) -> Binding<T> where Value == T? {
+        Binding<T> {
+            self.wrappedValue ?? defaultValue
+        } set: {
+            wrappedValue = $0
         }
     }
 }
