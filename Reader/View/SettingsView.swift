@@ -59,10 +59,8 @@ struct SettingsView: View, Logging {
             .navigationTitle("Settings")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Done") {
-                        dismiss()
-                    }
+                Button("Done") {
+                    dismiss()
                 }
             }
             .sheet(isPresented: $showLogs, content: {
