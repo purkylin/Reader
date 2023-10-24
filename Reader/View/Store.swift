@@ -26,7 +26,7 @@ class Store: Logging {
     }
     
     private func fetchWebFeed(url: URL) async throws -> RssSourceDTO {
-        let (data, _) = try await URLSession.shared.data(from: url)
+        let (data, _) = try await URLSession.api.data(from: url)
         let source = try RssSourceDTO.parse(data: data)
         return source
     }
@@ -36,6 +36,7 @@ class Store: Logging {
         for feed in feeds {
             do {
                 try await updateFeed(feed)
+                logger.info("update feed \(feed.title) success")
             } catch {
                 logger.error("update feed \(feed.title) failed: \(error.localizedDescription)")
             }
@@ -89,4 +90,13 @@ extension Article {
         
         return Article(from: dto)
     }
+}
+
+extension URLSession {
+    static var api: URLSession = {
+        // Set timeout
+        var config = URLSession.shared.configuration
+        config.timeoutIntervalForResource = 15
+        return URLSession(configuration: config)
+    }()
 }
