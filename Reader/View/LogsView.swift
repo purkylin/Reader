@@ -26,19 +26,16 @@ struct LogsView: View {
                 .loading($isLoading)
                 .task {
                     isLoading = true
-                    Task {
-                        let result = export()
-                        await MainActor.run {
-                            isLoading = false
-                            self.output = result
-                        }
-                    }
+                    let result = await export()
+                        
+                    isLoading = false
+                    self.output = result
                 }
         }
-
     }
     
-    private func export() -> String {
+    // async wrapper
+    private func export() async -> String {
         do {
             let store = try OSLogStore(scope: .currentProcessIdentifier)
             let position = store.position(timeIntervalSinceLatestBoot: 1)
