@@ -62,10 +62,12 @@ enum RssParseError: Swift.Error, LocalizedError {
     }
 }
 
+// [Specification](https://www.rssboard.org/rss-specification#sampleFiles)
 private class RssFeedParser {
     typealias Item = RssSourceDTO.Item
     
     private static var formatter: DateFormatter = {
+        // RFC 822
         let fmt = DateFormatter()
         fmt.dateFormat = "E, d MMM yyyy HH:mm:ss z"
         fmt.locale = Locale(identifier: "en_US")
@@ -81,17 +83,19 @@ private class RssFeedParser {
         
         let channel = xml.rss.channel
         
-        guard let title = channel.title.text,
-                let link = channel.link.text,
+        guard let title = channel.title.getText(),
+                let link = channel.link.getText(),
                 let url = URL(string: link)
                  else {
             throw RssParseError.invalidFormat
         }
         
-        let desc = channel["description"].text ?? ""
+        let desc = channel["description"].getText() ?? ""
         let logo = channel["image", "url"].url
-        
-        let feeds = try parseItems(at: channel)
+        // TODO: support lastBuildDate
+        let defaultDate = channel["pubDate"].text.map(getDate(from:))?.map { $0 }
+         
+        let feeds = try parseItems(at: channel, defaultDate: defaultDate)
         if feeds.isEmpty {
             throw RssParseError.empty
         }
@@ -112,13 +116,12 @@ private class RssFeedParser {
         return nil
     }
     
-    private static func parseItems(at node: XML.Accessor) throws -> [Item] {
+    private static func parseItems(at node: XML.Accessor, defaultDate: Date? = nil) throws -> [Item] {
         var result = [RssSourceDTO.Item]()
         
         for item in node.item {
             let strDate = item.pubDate.getText() ?? ""
-            
-            guard let date = getDate(from: strDate) else {
+            guard let date = getDate(from: strDate) ?? defaultDate else {
                 throw RssParseError.invalidDate
             }
             
@@ -194,10 +197,15 @@ extension XML.Accessor {
         }
         
         if let data = self.element?.CDATA, let text = String(data: data, encoding: .utf8) {
-            return text
+            return text.strip()
         }
         
         return nil
     }
 }
 
+extension String {
+    func strip() -> String {
+        return self.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+}
